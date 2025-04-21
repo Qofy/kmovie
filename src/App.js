@@ -50,27 +50,46 @@ const tempWatchedData = [
 const average = (arr) =>
   arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
-const Key = " 5b45f040"
+const mv = "dsfgds"
 
 
 export default function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setisLoading] = useState(false);
+  const [error, setError] = useState("");
+
 
 
   useEffect(()=>{
     async function fetchMovie() {
+   try{
       setisLoading(true);
-      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${"avengers"}
+      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${mv}
         `);
+
+        if(!res.ok){
+          throw new Error("Something went wrong")
+        }
+
         const data = await res.json();
+        if(data.Response === 'False'){throw new Error(data.Error)}
         setMovies(data.Search);
-        setisLoading(false);
-    }
-    fetchMovie()
+        console.log(data)
+      }
+      catch (error){
+        console.error(error.message)
+        setError(error.message)
+      }finally{
+        setisLoading(false)
+      }
       
+      }
+    
+    fetchMovie()
+    
   },[])
+
 
 
   return (
@@ -92,7 +111,10 @@ export default function App() {
 
 {/*Component Composition*/}
       <Box>
-     {isLoading ? <Loading/> : <MovieList movies={movies}/>}
+     {/* {isLoading ? <Loading/> : <MovieList movies={movies}/>} */}
+     {isLoading && <Loading/>}
+     {!isLoading && !error && <MovieList movies={movies}/>}
+     {error && <ErrorMessage message={error}/>}
      </Box>
 
      <Box>     
@@ -107,6 +129,12 @@ export default function App() {
 
 function Loading(){
   return <h3 className="loader">Loading....</h3>
+}
+
+function ErrorMessage({message}){
+  return(
+    <h3 className="error"><span>⛔️</span>{message}</h3>
+  )
 }
 
 function Nav({children}) {
