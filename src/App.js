@@ -54,18 +54,39 @@ const mv = "dsfgds"
 
 
 export default function App() {
+  const [query, setQuery] = useState("avengers");
+
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
+/*
+useEffect(function(){
+  console.log("After initial render")
+}, [])
 
+useEffect(function(){
+  console.log("After very render")
+})
 
+useEffect(
+  function(){
+    console.log("D")
+  },
+  [query]
+)
 
-  useEffect(()=>{
+useEffect(function(){
+  console.log("during render")
+})
+*/
+  useEffect(
+    ()=>{
     async function fetchMovie() {
    try{
-      setisLoading(true);
-      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${mv}
+     setisLoading(true);
+     setError("");
+      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${query}
         `);
 
         if(!res.ok){
@@ -73,29 +94,33 @@ export default function App() {
         }
 
         const data = await res.json();
-        if(data.Response === 'False'){throw new Error(data.Error)}
+        if(data.Response === 'False'){throw new Error("Movie not Found")}
         setMovies(data.Search);
         console.log(data)
       }
       catch (error){
-        console.error(error.message)
+         console.error(error.message)
         setError(error.message)
       }finally{
         setisLoading(false)
-      }
-      
-      }
-    
+      };
+      };
+
+    if(query.length < 3){
+      setMovies([]);
+      setError("");
+      return;
+    };
     fetchMovie()
     
-  },[])
+  },[query])
 
 
 
   return (
     <>
      <Nav>
-        <Search/>
+        <Search query={query} setQuery={setQuery}/>
         <NumResult movies={movies}/>
      </Nav>
      
@@ -163,8 +188,7 @@ function Logo(){
   )
 }
 
-function Search(){
-  const [query, setQuery] = useState("");
+function Search({query, setQuery}){
 
   return(
     <input
