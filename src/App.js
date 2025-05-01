@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import StarRating from "./StarRating";
 
 export default function App() {
   const [query, setQuery] = useState("avengers");
@@ -169,15 +170,57 @@ function Box({children}){
 // }
 
 function MoviesDetails ({selectedId, onCloseMovie}){
+  const [movie, setMovie]=useState({})
+  const [isLoading, setisLoading] = useState(false)
+useEffect(function(){
+  async function getMoviesDtail() {
+    setisLoading(true)
+    const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&i=${selectedId}`)
+    const data = await res.json()
+    setisLoading(false)
+    setMovie(data)
+    console.log(data)
+  }
+  getMoviesDtail()
+},[selectedId])
+
   return <div className="details">
+    {isLoading ? <Loading/>:
+   <>
+    <header>
   <button className="btn-back" onClick={onCloseMovie}>
     ←
   </button>
-    {selectedId}
+  <img src={movie.Poster} alt={`Poster of ${movie.Poster}`}/>
+    <div className="details-overview">
+      <h2>
+        {movie.Title}
+      </h2>
+      <p>
+        {movie.Released} • {movie.Runtime}
+      </p>
+      <p>{movie.Genre}</p>
+      <p>
+        <span>⭐️</span>
+        {movie.imdbRating} IMDb rating
+      </p>
     </div>
-}
+    </header>
+    <section>
+      <div className="rating">
 
-function WatchMovieList({watched}){
+      <StarRating maxRating={10} size={24}/>
+      </div>
+      <p>
+        <em>{movie.Plot}</em>
+      </p>
+      <p>Starring {movie.Actor}</p>
+      <p>Directed by {movie.Director}</p>
+    </section>
+    </>
+}
+    </div>
+}function WatchMovieList({watched}){
   return(
     <ul className="list">
     {watched.map((movie) => (
