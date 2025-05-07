@@ -17,8 +17,8 @@ StarRating.propTypes = {
   color:PropTypes.string,
   size: PropTypes.number,
   messages: PropTypes.array,
-  className: PropTypes.string
-
+  className: PropTypes.string,
+  onSetRating: PropTypes.func
 }
 
 // const textStyle = {
@@ -34,13 +34,15 @@ export default function StarRating ({
   color= "#fcc419", 
   className= "",  
   messages = [],
-  defaulRating = 0
+  defaulRating = 0,
+  onSetRating
 }){
   const [rate, setRate] = useState(defaulRating)
   const [tempRating, setTempRating] = useState(0)
 
   function handleClick(rating){
     setRate(rating)
+    onSetRating && onSetRating(rating)
     }
 
     const textStyle = {

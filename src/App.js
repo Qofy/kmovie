@@ -1,6 +1,18 @@
 import { useEffect, useState } from "react";
-import StarRating from "./StarRating";
-
+// import StarRating from "./StarRating";
+import { WatchSummary } from "./component/WatchSummary";
+import { WatchMovie } from "./component/WatchMovie";
+import { MoviesDetails } from "./component/MovieDetails";
+import { Main } from "./component/Main";
+import { Box } from "./component/Box";
+// import { Logo } from "./component/Logo";
+import { Search } from "./component/Search";
+import { NumResult } from "./component/NumResult";
+import { ErrorMessage } from "./component/ErrorMessage";
+import { Nav } from "./component/Nav";
+import { Loading } from "./component/Loading";
+// import { Movie } from "./component/Movie";
+import { MovieList } from "./component/MovieList";
 export default function App() {
   const [query, setQuery] = useState("avengers");
   const [movies, setMovies] = useState([]);
@@ -11,6 +23,7 @@ export default function App() {
 
   const handleSelectedMovie = (id) => setSelectedId((selectedId) =>(id === selectedId ? null : id)); 
   const handleCloseMovie = () => setSelectedId(null); 
+  const handleAddWatched = (movie) => setWatched([...watched, movie])
 
   useEffect(
     ()=>{
@@ -60,11 +73,11 @@ export default function App() {
 
      <Box>     
       {
-         selectedId ? (<MoviesDetails selectedId={selectedId} onCloseMovie={handleCloseMovie}/>):
+         selectedId ? (<MoviesDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} onHandleWatched= {handleAddWatched}/>):
          (
         <>
       <WatchSummary watched={watched}/>
-      <WatchMovieList watched={watched}/>
+      <WatchMovie watched={watched}/>
       </>
          )
       }
@@ -75,77 +88,18 @@ export default function App() {
   );
 }
 
-function Loading(){
-  return <h3 className="loader">Loading....</h3>
-}
 
-function ErrorMessage({message}){
-  return(
-    <h3 className="error"><span>⛔️</span>{message}</h3>
-  )
-}
 
-function Nav({children}) {
-  return(
-    <nav className="nav-bar">
-     <Logo/>
-        {children}
-    </nav>
-  )
-}
 
-function NumResult({movies}){
-  return(
-    <p className="num-results">
-      Found <strong>{movies.length}</strong> results
-    </p>
-  )
-}
 
-function Logo(){
-  return(
-    <div className="logo">
-      <span role="img">🍿</span>
-      <h1>KMovie</h1>
-    </div>
-  )
-}
 
-function Search({query, setQuery}){
-  return(
-    <input
-      className="search"
-      type="text"
-      placeholder="Search movies..."
-      value={query}
-      onChange={(e) => setQuery(e.target.value)}
-    />
-  )
-}
 
-function Main({children}){
-  return( 
-    <main className="main">
-     {children}        
-    </main> 
-  )
-}
 
-function Box({children}){
-  const [isOpen, setIsOpen] = useState(true);
 
-  return(
-    <div className="box">
-      <button
-        className="btn-toggle"
-        onClick={() => setIsOpen((open) => !open)}
-      >
-        {isOpen ? "–" : "+"}
-      </button>
-      {isOpen && children}
-    </div>
-  )
-}
+
+
+
+
 
 // function WatchBox(){
 //   const [watched, setWatched] = useState(tempWatchedData);
@@ -169,144 +123,3 @@ function Box({children}){
 //   )
 // }
 
-function MoviesDetails ({selectedId, onCloseMovie}){
-  const [movie, setMovie]=useState({})
-  const [isLoading, setisLoading] = useState(false)
-useEffect(function(){
-  async function getMoviesDtail() {
-    setisLoading(true)
-    const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&i=${selectedId}`)
-    const data = await res.json()
-    setisLoading(false)
-    setMovie(data)
-    console.log(data)
-  }
-  getMoviesDtail()
-},[selectedId])
-
-  return <div className="details">
-    {isLoading ? <Loading/>:
-   <>
-    <header>
-  <button className="btn-back" onClick={onCloseMovie}>
-    ←
-  </button>
-  <img src={movie.Poster} alt={`Poster of ${movie.Poster}`}/>
-    <div className="details-overview">
-      <h2>
-        {movie.Title}
-      </h2>
-      <p>
-        {movie.Released} • {movie.Runtime}
-      </p>
-      <p>{movie.Genre}</p>
-      <p>
-        <span>⭐️</span>
-        {movie.imdbRating} IMDb rating
-      </p>
-    </div>
-    </header>
-    <section>
-      <div className="rating">
-
-      <StarRating maxRating={10} size={24}/>
-      </div>
-      <p>
-        <em>{movie.Plot}</em>
-      </p>
-      <p>Starring {movie.Actor}</p>
-      <p>Directed by {movie.Director}</p>
-    </section>
-    </>
-}
-    </div>
-}function WatchMovieList({watched}){
-  return(
-    <ul className="list">
-    {watched.map((movie) => (
-    <WatchMovie movie={movie} key={movie.imdbID}/>
-    ))}
-  </ul>
-  )
-}
-
-function WatchMovie({movie}){
-  return(
-    <li >
-    <img src={movie.Poster} alt={`${movie.Title} poster`} />
-    <h3>{movie.Title}</h3>
-    <div>
-      <p>
-        <span>⭐️</span>
-        <span>{movie.imdbRating}</span>
-      </p>
-      <p>
-        <span>🌟</span>
-        <span>{movie.userRating}</span>
-      </p>
-      <p>
-        <span>⏳</span>
-        <span>{movie.runtime} min</span>
-      </p>
-    </div>
-  </li>
-  )
-}
-
-function WatchSummary({watched}){
-  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
-  const avgUserRating = average(watched.map((movie) => movie.userRating));
-  const avgRuntime = average(watched.map((movie) => movie.runtime));
-  
-  return(
-    <div className="summary">
-    <h2>Movies you watched</h2>
-    <div>
-      <p>
-        <span>#️⃣</span>
-        <span>{watched.length} movies</span>
-      </p>
-      <p>
-        <span>⭐️</span>
-        <span>{avgImdbRating}</span>
-      </p>
-      <p>
-        <span>🌟</span>
-        <span>{avgUserRating}</span>
-      </p>
-      <p>
-        <span>⏳</span>
-        <span>{avgRuntime} min</span>
-      </p>
-    </div>
-    </div>
-  )
-}
-
-function MovieList({movies, onSelectMovie}){
-  return(
-    <ul className="list list-movies">
-      {movies?.map((movie) => (
-     <Movie movie={movie} key={movie.imdbID} onSelectMovie={onSelectMovie}/>
-      ))}
-    </ul>
-  )
-}
-
-function Movie({movie, onSelectMovie}){
-  return(
-    <li onClick={() => onSelectMovie(movie.imdbID)}>
-    <img src={movie.Poster} alt={`${movie.Title} poster`} />
-    <h3>{movie.Title}</h3>
-    <div>
-      <p>
-        <span>🗓</span>
-        <span>{movie.Year}</span>
-      </p>
-    </div>
-  </li>
-  )
-}
-
-const average = (arr) =>
-  arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
