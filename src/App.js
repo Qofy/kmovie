@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 // import StarRating from "./StarRating";
 import { WatchSummary } from "./component/WatchSummary";
-import { WatchMovie } from "./component/WatchMovie";
+// import { WatchMovie } from "./component/WatchMovie";
 import { MoviesDetails } from "./component/MovieDetails";
 import { Main } from "./component/Main";
 import { Box } from "./component/Box";
@@ -11,6 +11,7 @@ import { NumResult } from "./component/NumResult";
 import { ErrorMessage } from "./component/ErrorMessage";
 import { Nav } from "./component/Nav";
 import { Loading } from "./component/Loading";
+import { WatchedMovieList } from "./component/WatchMovieList";
 // import { Movie } from "./component/Movie";
 import { MovieList } from "./component/MovieList";
 export default function App() {
@@ -24,7 +25,9 @@ export default function App() {
   const handleSelectedMovie = (id) => setSelectedId((selectedId) =>(id === selectedId ? null : id)); 
   const handleCloseMovie = () => setSelectedId(null); 
   const handleAddWatched = (movie) => setWatched([...watched, movie])
-
+  function handleDeletedMovie(id) {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id))
+  }
   useEffect(
     ()=>{
     async function fetchMovie() {
@@ -73,11 +76,11 @@ export default function App() {
 
      <Box>     
       {
-         selectedId ? (<MoviesDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} onHandleWatched= {handleAddWatched}/>):
+         selectedId ? (<MoviesDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} onHandleWatched= {handleAddWatched} watched={watched}/>):
          (
         <>
       <WatchSummary watched={watched}/>
-      <WatchMovie watched={watched}/>
+      <WatchedMovieList watched={watched} onDeleteWatched ={handleDeletedMovie}/>
       </>
          )
       }
