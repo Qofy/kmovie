@@ -9,6 +9,19 @@ export function MoviesDetails ({selectedId, onCloseMovie, onHandleWatched, watch
 
   const isWatched = watched.map(movie => movie.imdbID).includes(selectedId);
   const watchUserRating = watched.find(movie => movie.imdbID === selectedId)?.userRating
+
+  useEffect(function(){
+
+    function callBack (e){
+      if(e.code ==="Escape"){
+        onCloseMovie()
+      }
+    }
+    document.addEventListener("keydown", callBack);
+    return function(){
+      document.removeEventListener("keydown", callBack)
+    }
+  },[onCloseMovie])
 useEffect(function(){
   async function getMoviesDtail() {
     setisLoading(true)

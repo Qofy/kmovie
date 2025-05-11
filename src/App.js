@@ -28,9 +28,10 @@ export default function App() {
   function handleDeletedMovie(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id))
   }
-  const abortController = new AbortController();
+
   useEffect(
     ()=>{
+    const abortController = new AbortController();
     async function fetchMovie() {
    try{
      setisLoading(true);
@@ -61,6 +62,7 @@ export default function App() {
       setError("");
       return;
     };
+    handleCloseMovie()
     fetchMovie();
     return function(){abortController.abort()}
     
@@ -96,7 +98,6 @@ export default function App() {
     </>
   );
 }
-
 
 
 
