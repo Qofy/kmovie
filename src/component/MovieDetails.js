@@ -24,6 +24,10 @@ useEffect(function(){
   useEffect(function(){
     if (!movie.Title) return;
     document.title =`Movie | ${movie.Title}`
+
+    return () =>{
+      document.title = "KMovies"
+    }
   },[movie.Title])
 
 function handleAdd(){
