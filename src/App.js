@@ -28,13 +28,16 @@ export default function App() {
   function handleDeletedMovie(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id))
   }
+  const abortController = new AbortController();
   useEffect(
     ()=>{
     async function fetchMovie() {
    try{
      setisLoading(true);
      setError("");
-      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${query}`);
+      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${query}`,
+      {signal: abortController.signal}
+      );
 
         if(!res.ok){
           throw new Error("Something went wrong")
@@ -45,7 +48,9 @@ export default function App() {
         setMovies(data.Search);
       }
       catch (error){
+        if (error.name !== "Abort error")
         setError(error.message)
+        setError("")
       }finally{
         setisLoading(false)
       };
@@ -56,7 +61,8 @@ export default function App() {
       setError("");
       return;
     };
-    fetchMovie()
+    fetchMovie();
+    return function(){abortController.abort()}
     
   },[query])
 
