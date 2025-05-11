@@ -21,6 +21,11 @@ useEffect(function(){
   getMoviesDtail()
 },[selectedId])
 
+  useEffect(function(){
+    if (!movie.Title) return;
+    document.title =`Movie | ${movie.Title}`
+  },[movie.Title])
+
 function handleAdd(){
   const newwatchedMovie = {
     Title: movie.Title,
