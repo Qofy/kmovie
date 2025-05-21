@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from "react"; 
 // import StarRating from "./StarRating";
 import { WatchSummary } from "./component/WatchSummary";
 // import { WatchMovie } from "./component/WatchMovie";
@@ -17,10 +17,17 @@ import { MovieList } from "./component/MovieList";
 export default function App() {
   const [query, setQuery] = useState("avengers");
   const [movies, setMovies] = useState([]);
-  const [watched, setWatched] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [error, setError] = useState("");
+  // const [watched, setWatched] = useState([]);
+  
+  //if fuction is used in useState u can pass in a parameter or call a function in the useState Hook 
+   const [watched, setWatched] = useState(function(){
+    const storeValue = localStorage.getItem("watched")
+    return JSON.parse(storeValue);
+   });
+
 
   const handleSelectedMovie = (id) => setSelectedId((selectedId) =>(id === selectedId ? null : id)); 
   const handleCloseMovie = () => setSelectedId(null); 
@@ -28,6 +35,11 @@ export default function App() {
   function handleDeletedMovie(id) {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id))
   }
+
+  //Storing watched move in the localstorage
+  useEffect(function(){
+    localStorage.setItem("watched", JSON.stringify(watched))
+  },[watched])
 
   useEffect(
     ()=>{
