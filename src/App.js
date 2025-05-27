@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"; 
+import { useEffect, useState, } from "react"; 
 // import StarRating from "./StarRating";
 import { WatchSummary } from "./component/WatchSummary";
 // import { WatchMovie } from "./component/WatchMovie";
@@ -14,15 +14,18 @@ import { Loading } from "./component/Loading";
 import { WatchedMovieList } from "./component/WatchMovieList";
 // import { Movie } from "./component/Movie";
 import { MovieList } from "./component/MovieList";
+
+
 export default function App() {
   const [query, setQuery] = useState("avengers");
   const [movies, setMovies] = useState([]);
   const [isLoading, setisLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
   const [error, setError] = useState("");
+  
   // const [watched, setWatched] = useState([]);
   
-  //if fuction is used in useState u can pass in a parameter or call a function in the useState Hook 
+  //if fuction is used in useState u can't pass in a parameter or call a function in the useState Hook 
    const [watched, setWatched] = useState(function(){
     const storeValue = localStorage.getItem("watched")
     return JSON.parse(storeValue);
