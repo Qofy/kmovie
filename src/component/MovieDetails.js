@@ -1,4 +1,4 @@
- import { useState, useEffect } from "react"
+ import { useState, useEffect, useRef } from "react"
  import StarRating from "../StarRating"
  import { Loading } from "./Loading"
 
@@ -6,9 +6,20 @@ export function MoviesDetails ({selectedId, onCloseMovie, onHandleWatched, watch
   const [movie, setMovie]=useState({})
   const [isLoading, setisLoading] = useState(false)
   const [userRating, setUserRating] = useState("")
+  const counterRef = useRef(0)
 
   const isWatched = watched.map(movie => movie.imdbID).includes(selectedId);
   const watchUserRating = watched.find(movie => movie.imdbID === selectedId)?.userRating
+
+useEffect(
+  function(){
+    if(userRating){
+       counterRef.current++;
+    }
+  },[userRating]
+)
+  
+
 
   useEffect(function(){
 
@@ -51,6 +62,7 @@ function handleAdd(){
     Poster: movie.Poster,
     imdbRating: Number(movie.imdbRating),
     Runtime: Number(movie.Runtime.split(" ").at(0)),
+    SetCounterCurrent: counterRef.current,
     userRating
   }
   onHandleWatched(newwatchedMovie)
