@@ -61,7 +61,7 @@ function handleAdd(){
     Year: movie.Year,
     Poster: movie.Poster,
     imdbRating: Number(movie.imdbRating),
-    Runtime: Number(movie.Runtime.split(" ").at(0)),
+    runtime: Number(movie.Runtime.split(" ").at(0)),
     SetCounterCurrent: counterRef.current,
     userRating
   }

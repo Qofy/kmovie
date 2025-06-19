@@ -14,21 +14,19 @@ import { Loading } from "./component/Loading";
 import { WatchedMovieList } from "./component/WatchMovieList";
 // import { Movie } from "./component/Movie";
 import { MovieList } from "./component/MovieList";
+import { useMovie } from "./js/movie";
 
 
 export default function App() {
   const [query, setQuery] = useState("avengers");
-  const [movies, setMovies] = useState([]);
-  const [isLoading, setisLoading] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [error, setError] = useState("");
-  
+  const {isLoading,movies,error} = useMovie(query);
   // const [watched, setWatched] = useState([]);
   
   //if fuction is used in useState u can't pass in a parameter or call a function in the useState Hook 
    const [watched, setWatched] = useState(function(){
     const storeValue = localStorage.getItem("watched")
-    return JSON.parse(storeValue);
+    return storeValue ? JSON.parse(storeValue):[];
    });
 
 
@@ -43,45 +41,6 @@ export default function App() {
   useEffect(function(){
     localStorage.setItem("watched", JSON.stringify(watched))
   },[watched])
-
-  useEffect(
-    ()=>{
-    const abortController = new AbortController();
-    async function fetchMovie() {
-   try{
-     setisLoading(true);
-     setError("");
-      const res = await fetch(`https://www.omdbapi.com/?apikey=5b45f040&s=${query}`,
-      {signal: abortController.signal}
-      );
-
-        if(!res.ok){
-          throw new Error("Something went wrong")
-        }
-
-        const data = await res.json();
-        if(data.Response === 'False'){throw new Error("Movie not Found")}
-        setMovies(data.Search);
-      }
-      catch (error){
-        if (error.name !== "Abort error")
-        setError(error.message)
-        setError("")
-      }finally{
-        setisLoading(false)
-      };
-      };
-
-    if(query.length < 3){
-      setMovies([]);
-      setError("");
-      return;
-    };
-    handleCloseMovie()
-    fetchMovie();
-    return function(){abortController.abort()}
-    
-  },[query])
 
   return (
     <>
