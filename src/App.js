@@ -15,6 +15,7 @@ import { WatchedMovieList } from "./component/WatchMovieList";
 // import { Movie } from "./component/Movie";
 import { MovieList } from "./component/MovieList";
 import { useMovie } from "./js/movie";
+import {useLocalStorageState} from "./js/useLocalStorage" 
 
 
 export default function App() {
@@ -23,13 +24,8 @@ export default function App() {
   const {isLoading,movies,error} = useMovie(query);
   // const [watched, setWatched] = useState([]);
   
-  //if fuction is used in useState u can't pass in a parameter or call a function in the useState Hook 
-   const [watched, setWatched] = useState(function(){
-    const storeValue = localStorage.getItem("watched")
-    return storeValue ? JSON.parse(storeValue):[];
-   });
-
-
+  const [watched, setWatched] = useLocalStorageState([], "watch")
+  
   const handleSelectedMovie = (id) => setSelectedId((selectedId) =>(id === selectedId ? null : id)); 
   const handleCloseMovie = () => setSelectedId(null); 
   const handleAddWatched = (movie) => setWatched([...watched, movie])
@@ -37,10 +33,10 @@ export default function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id))
   }
 
-  //Storing watched move in the localstorage
-  useEffect(function(){
-    localStorage.setItem("watched", JSON.stringify(watched))
-  },[watched])
+  // //Storing watched move in the localstorage
+  // useEffect(function(){
+  //   localStorage.setItem("watched", JSON.stringify(watched))
+  // },[watched])
 
   return (
     <>
