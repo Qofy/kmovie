@@ -1,4 +1,4 @@
-import { useEffect, useState, } from "react"; 
+import { useState, } from "react"; 
 // import StarRating from "./StarRating";
 import { WatchSummary } from "./component/WatchSummary";
 // import { WatchMovie } from "./component/WatchMovie";
