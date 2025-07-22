@@ -1,6 +1,6 @@
 export function WatchMovie({ movie, onDeleteWatched }) {
   return (
-    <li>
+    <li className="list-item">
       <img src={movie.Poster} alt={`${movie.Title} poster`} />
       <h3>{movie.Title}</h3>
       <div>
@@ -14,12 +14,17 @@ export function WatchMovie({ movie, onDeleteWatched }) {
         </p>
         <p>
           <span>⏳</span>
-          <span>{movie.Runtime} min</span>
+          <span>{movie.runtime} min</span>
         </p>
-        <button 
-          className="btn-delete" 
-          onClick={() => onDeleteWatched(movie.imdbID)}>
-          X
+        <button
+          className="btn-delete"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDeleteWatched(movie.imdbID);
+          }}
+          aria-label={`Remove ${movie.Title} from watched list`}
+        >
+          ✕
         </button>
       </div>
     </li>
