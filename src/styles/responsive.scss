@@ -1,0 +1,475 @@
+// ============================================
+// RESPONSIVE MEDIA QUERIES FOR ALL DEVICES
+// ============================================
+
+// Breakpoint Variables
+$mobile-xs: 320px;
+$mobile-sm: 375px;
+$mobile-md: 425px;
+$tablet-sm: 768px;
+$tablet-md: 834px;
+$tablet-lg: 1024px;
+$laptop-sm: 1366px;
+$laptop-md: 1440px;
+$laptop-lg: 1680px;
+$desktop: 1920px;
+$desktop-lg: 2560px;
+
+// ============================================
+// MOBILE DEVICES
+// ============================================
+
+// Extra Small Mobile (iPhone SE, Galaxy S8+)
+@media only screen and (max-width: #{$mobile-xs - 1}) {
+  .container {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  
+  .btn {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+
+// Small Mobile (iPhone 12 mini, Galaxy S20)
+@media only screen and (min-width: $mobile-xs) and (max-width: #{$mobile-sm - 1}) {
+  .container {
+    padding: 12px;
+    font-size: 14px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .btn {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+}
+
+// Medium Mobile (iPhone 12, Galaxy S21)
+@media only screen and (min-width: $mobile-sm) and (max-width: #{$mobile-md - 1}) {
+  .container {
+    padding: 15px;
+    font-size: 15px;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .btn {
+    padding: 12px 16px;
+    font-size: 14px;
+  }
+}
+
+// Large Mobile (iPhone 12 Pro Max, Galaxy Note)
+@media only screen and (min-width: $mobile-md) and (max-width: #{$tablet-sm - 1}) {
+  .container {
+    padding: 20px;
+    font-size: 16px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .btn {
+    padding: 12px 18px;
+    font-size: 15px;
+  }
+}
+
+// ============================================
+// TABLET DEVICES
+// ============================================
+
+// Small Tablet (iPad Mini)
+@media only screen and (min-width: $tablet-sm) and (max-width: #{$tablet-md - 1}) {
+  .container {
+    padding: 25px;
+    font-size: 16px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  
+  .btn {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 250px;
+  }
+}
+
+// Medium Tablet (iPad Air)
+@media only screen and (min-width: $tablet-md) and (max-width: #{$tablet-lg - 1}) {
+  .container {
+    padding: 30px;
+    font-size: 17px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+  }
+  
+  .btn {
+    padding: 15px 22px;
+    font-size: 16px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 280px;
+  }
+}
+
+// Large Tablet (iPad Pro 11")
+@media only screen and (min-width: $tablet-lg) and (max-width: #{$laptop-sm - 1}) {
+  .container {
+    padding: 35px;
+    font-size: 18px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+  }
+  
+  .btn {
+    padding: 16px 24px;
+    font-size: 17px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 300px;
+  }
+}
+
+// ============================================
+// LAPTOP/DESKTOP DEVICES
+// ============================================
+
+// Small Laptop (MacBook Air 13")
+@media only screen and (min-width: $laptop-sm) and (max-width: #{$laptop-md - 1}) {
+  .container {
+    padding: 40px;
+    font-size: 18px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 35px;
+  }
+  
+  .btn {
+    padding: 18px 26px;
+    font-size: 18px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 320px;
+  }
+  
+  .header {
+    height: 80px;
+  }
+}
+
+// Medium Laptop (MacBook Pro 15", Dell XPS 15)
+@media only screen and (min-width: $laptop-md) and (max-width: #{$laptop-lg - 1}) {
+  .container {
+    padding: 45px;
+    font-size: 19px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+  }
+  
+  .btn {
+    padding: 20px 28px;
+    font-size: 18px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 350px;
+  }
+  
+  .header {
+    height: 90px;
+  }
+}
+
+// Large Laptop (MacBook Pro 16", Gaming Laptops)
+@media only screen and (min-width: $laptop-lg) and (max-width: #{$desktop - 1}) {
+  .container {
+    padding: 50px;
+    font-size: 20px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 45px;
+  }
+  
+  .btn {
+    padding: 22px 30px;
+    font-size: 19px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 380px;
+  }
+  
+  .header {
+    height: 100px;
+  }
+}
+
+// Desktop (1920px - Standard HD)
+@media only screen and (min-width: $desktop) and (max-width: #{$desktop-lg - 1}) {
+  .container {
+    padding: 60px;
+    font-size: 21px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 50px;
+  }
+  
+  .btn {
+    padding: 24px 32px;
+    font-size: 20px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 400px;
+  }
+  
+  .header {
+    height: 110px;
+  }
+}
+
+// Large Desktop (2560px+ - 4K and ultra-wide)
+@media only screen and (min-width: $desktop-lg) {
+  .container {
+    padding: 80px;
+    font-size: 22px;
+  }
+  
+  .grid {
+    grid-template-columns: repeat(8, 1fr);
+    gap: 60px;
+  }
+  
+  .btn {
+    padding: 26px 36px;
+    font-size: 21px;
+  }
+  
+  .sidebar {
+    display: block;
+    width: 450px;
+  }
+  
+  .header {
+    height: 120px;
+  }
+}
+
+// ============================================
+// ORIENTATION-SPECIFIC MEDIA QUERIES
+// ============================================
+
+// Portrait Orientation (Mobile/Tablet)
+@media only screen and (orientation: portrait) and (max-width: $tablet-lg) {
+  .landscape-only {
+    display: none;
+  }
+  
+  .portrait-stack {
+    flex-direction: column;
+  }
+  
+  .nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+  }
+}
+
+// Landscape Orientation (Mobile/Tablet)
+@media only screen and (orientation: landscape) and (max-width: $tablet-lg) {
+  .portrait-only {
+    display: none;
+  }
+  
+  .landscape-flex {
+    flex-direction: row;
+  }
+  
+  .nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50px;
+  }
+}
+
+// ============================================
+// HIGH DPI / RETINA DISPLAYS
+// ============================================
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2),
+       only screen and (min--moz-device-pixel-ratio: 2),
+       only screen and (-o-min-device-pixel-ratio: 2/1),
+       only screen and (min-device-pixel-ratio: 2),
+       only screen and (min-resolution: 192dpi),
+       only screen and (min-resolution: 2dppx) {
+  
+  .high-dpi-image {
+    background-image: url('image@2x.jpg');
+  }
+  
+  .icon {
+    background-size: contain;
+  }
+}
+
+// ============================================
+// ACCESSIBILITY & PREFERENCE QUERIES
+// ============================================
+
+// Reduced Motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+// Dark Mode Preference
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --accent-color: #007acc;
+  }
+}
+
+// Light Mode Preference
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --accent-color: #0066cc;
+  }
+}
+
+// High Contrast Preference
+@media (prefers-contrast: high) {
+  .btn {
+    border: 2px solid;
+  }
+  
+  .card {
+    border: 1px solid;
+  }
+}
+
+// ============================================
+// DEVICE-SPECIFIC QUERIES
+// ============================================
+
+// iPhone X/11/12/13/14 (Notch handling)
+@media only screen 
+  and (device-width: 375px) 
+  and (device-height: 812px) 
+  and (-webkit-device-pixel-ratio: 3) {
+  
+  .safe-area-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+// iPad Pro 12.9"
+@media only screen 
+  and (device-width: 1024px) 
+  and (device-height: 1366px) 
+  and (-webkit-device-pixel-ratio: 2) {
+  
+  .ipad-pro-layout {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+// Surface Pro
+@media only screen 
+  and (device-width: 1368px) 
+  and (device-height: 912px) 
+  and (-webkit-device-pixel-ratio: 1.5) {
+  
+  .surface-layout {
+    touch-action: manipulation;
+  }
+}
+
+// ============================================
+// PRINT STYLES
+// ============================================
+
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .no-print {
+    display: none !important;
+  }
+  
+  .page-break {
+    page-break-before: always;
+  }
+  
+  a::after {
+    content: " (" attr(href) ")";
+  }
+}
